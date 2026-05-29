@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAMAGE — A Programming Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Rubik:ital,wght@1,700;1,800&family=Jost:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#ff3c3c;--accent2:#ff7b3c;--text:#e8e8f0;--muted:#666680;--code-bg:#0d0d14}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;overflow-x:hidden}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,60,60,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'DAMAGE';position:absolute;right:-2vw;top:50%;transform:translateY(-50%);font-family:'Rubik',sans-serif;font-weight:800;font-size:22vw;color:transparent;-webkit-text-stroke:1px rgba(255,60,60,.06);pointer-events:none;letter-spacing:-.05em;white-space:nowrap}
+.badge{display:inline-block;background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);color:var(--accent);font-family:'Space Mono',monospace;font-size:.7rem;padding:4px 12px;border-radius:2px;letter-spacing:.1em;margin-bottom:2rem;animation:fadeUp .6s ease both}
+h1{font-size:clamp(3rem,8vw,7rem);font-weight:800;font-style:italic;font-family:'Rubik',sans-serif;line-height:.95;letter-spacing:-.03em;margin-bottom:1.5rem;animation:fadeUp .6s .1s ease both}
+h1 span{color:var(--accent)}
+.tagline{font-size:clamp(1rem,2vw,1.3rem);color:var(--muted);max-width:500px;line-height:1.6;margin-bottom:2.5rem;animation:fadeUp .6s .2s ease both}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .6s .3s ease both}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;font-family:'Space Mono',monospace;font-size:.85rem;text-decoration:none;border-radius:2px;transition:all .2s;letter-spacing:.05em}
+.btn-primary{background:var(--accent);color:#000;font-weight:700}
+.btn-primary:hover{background:#ff5555;transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.stats{display:flex;gap:3rem;padding:3rem 8vw;border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.stat-num{font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+.stat-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.1em;margin-top:4px}
+section{padding:6rem 8vw}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.2em;margin-bottom:1rem}
+h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;font-family:'Jost',sans-serif;letter-spacing:-.02em;margin-bottom:1rem;line-height:1.1}
+.section-desc{color:var(--muted);font-size:1.1rem;max-width:500px;line-height:1.7;margin-bottom:3rem;font-family:'Roboto',sans-serif}
+.examples-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.example-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color .2s}
+.example-card:hover{border-color:rgba(255,60,60,.3)}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.card-title{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);letter-spacing:.1em}
+.card-dots{display:flex;gap:5px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+pre{padding:1.5rem;font-family:'Space Mono',monospace;font-size:.78rem;line-height:1.7;overflow-x:auto;background:var(--code-bg)}
+.kw{color:#ff3c3c}.fn{color:#89b4fa}.str{color:#a8d8a8}.op{color:#cba6f7}.cm{color:#444466}
+.install-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.install-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-top:3rem}
+.step{display:flex;gap:1rem}
+.step-num{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);font-weight:700;padding-top:2px;flex-shrink:0}
+.step-content h3{font-size:1rem;font-weight:700;font-family:'Jost',sans-serif;margin-bottom:.5rem}
+.step-content p{color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:.75rem}
+.code-line{background:var(--code-bg);border:1px solid var(--border);border-radius:2px;padding:8px 12px;font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent2)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.feature{padding:1.5rem;border:1px solid var(--border);border-radius:4px;transition:all .2s}
+.feature:hover{border-color:rgba(255,60,60,.3);background:rgba(255,60,60,.03)}
+.feature-icon{font-size:1.5rem;margin-bottom:.75rem}
+.feature h3{font-size:.95rem;font-weight:700;font-family:'Jost',sans-serif;margin-bottom:.5rem}
+.feature p{font-size:.85rem;color:var(--muted);line-height:1.6}
+footer{padding:3rem 8vw;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-left{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted)}
+.footer-left span{color:var(--accent)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);text-decoration:none;letter-spacing:.05em;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="badge">v8.0 — NOW IN RUST</div>
+  <h1>Code the way<br>you <span>think.</span></h1>
+  <p class="tagline">DAMAGE is a programming language designed around your logic — not a computer's. No type errors. No confusing syntax. Just write what you mean.</p>
+  <div class="hero-buttons">
+    <a href="https://github.com/Ultiminium/DAMAGE" class="btn btn-primary">Get DAMAGE &rarr;</a>
+    <a href="#examples" class="btn btn-secondary">See examples</a>
+  </div>
+</section>
+
+<div class="stats reveal">
+  <div class="stat-item"><div class="stat-num">821KB</div><div class="stat-label">BINARY SIZE</div></div>
+  <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">DEPENDENCIES</div></div>
+  <div class="stat-item"><div class="stat-num">v8</div><div class="stat-label">NATIVE RUST</div></div>
+  <div class="stat-item"><div class="stat-num">.damg</div><div class="stat-label">FILE EXTENSION</div></div>
+</div>
+
+<section id="examples">
+  <p class="section-label reveal">SYNTAX</p>
+  <h2 class="reveal">Readable by design.</h2>
+  <p class="section-desc reveal">Every block opens with <code style="color:var(--accent);font-family:'Space Mono',monospace">@function+</code> and closes with <code style="color:var(--accent);font-family:'Space Mono',monospace">@-</code>. Content inside is indented 5 spaces. That's it.</p>
+  <div class="examples-grid">
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">VARIABLES & PRINT</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="cm">| declare variables</span>
+<span class="kw">@var+</span>
+     <span class="fn">name</span><span class="op">+</span><span class="str">User</span><span class="op">-</span>
+     <span class="fn">score</span><span class="op">+</span><span class="str">100</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="kw">@print,var+</span>
+     <span class="op">+</span>Hello <span class="fn">(name)</span>!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">CONDITIONS</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="kw">if,</span> <span class="fn">(score)</span> <span class="op">=</span> 100
+<span class="kw">@print+</span>
+     <span class="op">+</span>Perfect!<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">other if,</span> <span class="fn">(score)</span> <span class="op">&gt;</span> 50
+<span class="kw">@print+</span>
+     <span class="op">+</span>Not bad.<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">other,</span>
+<span class="kw">@print+</span>
+     <span class="op">+</span>Keep trying.<span class="op">-</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">USER INPUT</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="kw">@user,print+</span>
+     <span class="op">+</span>What is your name?<span class="op">-</span>
+<span class="kw">@user:expect"l"</span>
+<span class="kw">@var:create+</span><span class="fn">name</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="kw">@print,var+</span>
+     <span class="op">+</span>Hello <span class="fn">(name)</span>!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">MATH & ENCRYPTION</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="cm">| inline math evaluation</span>
+<span class="kw">@print,math+</span>
+     <span class="op">+</span>2^10 = <span class="fn">%2^10%</span>? Yes, <span class="fn">%</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="cm">| encrypt a variable</span>
+<span class="kw">@enc,var+</span>
+     <span class="op">+</span><span class="fn">(password)</span><span class="op">-</span>
+<span class="kw">@enc:password"mykey"</span>
+<span class="kw">@var:create+</span><span class="fn">secured</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">LOOPS</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="kw">@var+</span>
+     <span class="fn">times</span><span class="op">+</span><span class="str">5</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="cm">| loop a variable amount</span>
+<span class="kw">@loop,print+</span>
+     <span class="op">+</span>Hello!<span class="op">-</span>
+<span class="kw">@loop:</span><span class="fn">(times)</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+    <div class="example-card reveal">
+      <div class="card-header"><span class="card-title">FUNCTIONS</span><div class="card-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <pre><span class="kw">@addfunc+</span>
+<span class="kw">@print+</span>
+     <span class="op">+</span>Hello from my function!<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">@addfunc:createname"</span><span class="fn">greet</span><span class="kw">"</span>
+<span class="kw">@---</span>
+
+<span class="kw">@greet+</span>
+<span class="kw">@-</span></pre>
+    </div>
+
+  </div>
+</section>
+
+<section class="install-section">
+  <p class="section-label reveal">INSTALL</p>
+  <h2 class="reveal">Up in 30 seconds.</h2>
+  <p class="section-desc reveal">Download the binary for your platform, drop it in your PATH, and start writing.</p>
+  <div class="install-steps">
+    <div class="step reveal">
+      <span class="step-num">01</span>
+      <div class="step-content">
+        <h3>Download</h3>
+        <p>Grab the latest binary from the GitHub releases page.</p>
+        <div class="code-line">github.com/Ultiminium/DAMAGE</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <span class="step-num">02</span>
+      <div class="step-content">
+        <h3>Install</h3>
+        <p>Make it executable and move it to your PATH.</p>
+        <div class="code-line">sudo mv damage /usr/local/bin/damage</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <span class="step-num">03</span>
+      <div class="step-content">
+        <h3>Run</h3>
+        <p>Write a <code style="color:var(--accent);font-family:'Space Mono',monospace">.damg</code> file and run it.</p>
+        <div class="code-line">damage hello.damg</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <span class="step-num">04</span>
+      <div class="step-content">
+        <h3>Build from source</h3>
+        <p>Have Rust installed? Build it yourself on any platform.</p>
+        <div class="code-line">cargo build --release</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="section-label reveal">FEATURES</p>
+  <h2 class="reveal">Everything you need.</h2>
+  <p class="section-desc reveal">Built for people who think in plain logic. No fluff, no gatekeeping.</p>
+  <div class="features-grid">
+    <div class="feature reveal"><h3>Native Rust binary</h3><p>821KB. Zero dependencies. Runs natively on Linux, Mac, and Windows.</p></div>
+    <div class="feature reveal"><h3>Logic-first syntax</h3><p>Designed around how you naturally think, not how a computer expects input.</p></div>
+    <div class="feature reveal"><h3>GUI support</h3><p>Build real windowed apps with buttons, inputs, and labels. No extra libraries.</p></div>
+    <div class="feature reveal"><h3>Built-in encryption</h3><p>Encrypt and decrypt variables with a password. Never stores the key.</p></div>
+    <div class="feature reveal"><h3>Package system</h3><p>Install community packages with <code style="font-family:'Space Mono',monospace;color:var(--accent)">damage install name</code>.</p></div>
+    <div class="feature reveal"><h3>Random built-in</h3><p>Pick from lists, ranges, or variables. Random OR with <code style="font-family:'Space Mono',monospace;color:var(--accent)">?</code> for natural variety.</p></div>
+    <div class="feature reveal"><h3>Universal fetch</h3><p>Pipe data anywhere — variables, files, GUI elements — with one syntax.</p></div>
+    <div class="feature reveal"><h3>Clear errors</h3><p>Errors show the exact line. No stack traces. No cryptic messages.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">DAMAGE <span>v8.0</span> &mdash; MIT License</div>
+  <div class="footer-links">
+    <a href="https://github.com/Ultiminium/DAMAGE">GitHub</a>
+    <a href="https://github.com/Ultiminium/DAMAGE/blob/main/README.md">Docs</a>
+    <a href="https://github.com/Ultiminium/DAMAGE/releases">Releases</a>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('visible'); }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

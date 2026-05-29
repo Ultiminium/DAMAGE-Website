@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAMAGE Docs</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Jost:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#ff3c3c;--text:#e8e8f0;--muted:#666680;--code-bg:#0d0d14;--sidebar-w:260px;--nav-h:52px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;min-height:100vh}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(10,10,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;gap:2rem;z-index:100}
+.nav-logo{font-family:'Space Mono',monospace;font-weight:700;font-size:.9rem;color:var(--accent);text-decoration:none;letter-spacing:.05em}
+.nav-links{display:flex;gap:1.5rem;margin-left:auto}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:var(--nav-h);min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;position:fixed;top:var(--nav-h);bottom:0;overflow-y:auto;padding:1.5rem 0;border-right:1px solid var(--border);background:var(--bg)}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sidebar-section{margin-bottom:.25rem}
+.sidebar-section-title{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.15em;padding:.75rem 1.5rem .25rem;text-transform:uppercase}
+.sidebar-link{display:block;padding:.4rem 1.5rem;font-size:.85rem;color:var(--muted);text-decoration:none;transition:all .15s;border-left:2px solid transparent}
+.sidebar-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sidebar-link.active{color:var(--text);border-left-color:var(--accent);background:rgba(255,60,60,.05)}
+
+/* CONTENT */
+.content{margin-left:var(--sidebar-w);flex:1;max-width:820px;padding:3rem 4rem;line-height:1.7}
+.content h1{font-family:'Jost',sans-serif;font-size:2rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.02em}
+.content h2{font-family:'Jost',sans-serif;font-size:1.3rem;font-weight:700;margin:2.5rem 0 .75rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+.content h2:first-of-type{border-top:none;padding-top:0}
+.content h3{font-family:'Jost',sans-serif;font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--text)}
+.content p{color:#b0b0c8;margin-bottom:1rem;font-size:.95rem}
+.content ul{color:#b0b0c8;padding-left:1.5rem;margin-bottom:1rem;font-size:.95rem}
+.content ul li{margin-bottom:.3rem}
+.page-title-sub{color:var(--muted);font-size:.9rem;margin-bottom:2rem;font-family:'Space Mono',monospace}
+
+/* CODE */
+pre,code{font-family:'Space Mono',monospace}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:3px;padding:1px 6px;font-size:.8rem;color:var(--accent)}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;overflow-x:auto;margin:1rem 0 1.5rem;font-size:.8rem;line-height:1.8}
+.kw{color:#ff3c3c}.fn{color:#89b4fa}.str{color:#a8d8a8}.op{color:#cba6f7}.cm{color:#444466}
+
+/* CALLOUT */
+.callout{background:rgba(255,60,60,.05);border:1px solid rgba(255,60,60,.2);border-radius:4px;padding:1rem 1.25rem;margin:1rem 0 1.5rem;font-size:.9rem;color:#b0b0c8}
+.callout strong{color:var(--accent)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.85rem}
+th{text-align:left;padding:.6rem 1rem;background:var(--surface);border:1px solid var(--border);font-family:'Jost',sans-serif;font-weight:600;color:var(--text)}
+td{padding:.6rem 1rem;border:1px solid var(--border);color:#b0b0c8;vertical-align:top}
+td code{font-size:.75rem}
+
+/* SECTION PAGES */
+.doc-page{display:none}
+.doc-page.active{display:block}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">DAMAGE</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="docs.html" class="active">Docs</a>
+    <a href="https://github.com/Ultiminium/DAMAGE">GitHub</a>
+  </div>
+</nav>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Getting Started</div>
+    <a href="#" class="sidebar-link active" data-page="intro">Introduction</a>
+    <a href="#" class="sidebar-link" data-page="install">Installation</a>
+    <a href="#" class="sidebar-link" data-page="hello">Hello World</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Syntax</div>
+    <a href="#" class="sidebar-link" data-page="blocks">Blocks</a>
+    <a href="#" class="sidebar-link" data-page="variables">Variables</a>
+    <a href="#" class="sidebar-link" data-page="print">Print</a>
+    <a href="#" class="sidebar-link" data-page="math">Math</a>
+    <a href="#" class="sidebar-link" data-page="conditions">Conditions</a>
+    <a href="#" class="sidebar-link" data-page="loops">Loops</a>
+    <a href="#" class="sidebar-link" data-page="input">User Input</a>
+    <a href="#" class="sidebar-link" data-page="random">Random</a>
+    <a href="#" class="sidebar-link" data-page="functions">Functions</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Features</div>
+    <a href="#" class="sidebar-link" data-page="fetch">Fetch</a>
+    <a href="#" class="sidebar-link" data-page="text">Text Operations</a>
+    <a href="#" class="sidebar-link" data-page="enc">Encryption</a>
+    <a href="#" class="sidebar-link" data-page="gui">GUI</a>
+    <a href="#" class="sidebar-link" data-page="output">File Output</a>
+    <a href="#" class="sidebar-link" data-page="import">Import</a>
+    <a href="#" class="sidebar-link" data-page="packages">Packages</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">CLI</div>
+    <a href="#" class="sidebar-link" data-page="cli">Commands & Flags</a>
+    <a href="#" class="sidebar-link" data-page="errors">Error Handling</a>
+  </div>
+</aside>
+
+<!-- CONTENT -->
+<main class="content">
+
+<!-- INTRO -->
+<div class="doc-page active" id="page-intro">
+  <h1>DAMAGE</h1>
+  <p class="page-title-sub">v8.0 — Native Rust</p>
+  <p>DAMAGE is a programming language designed around how you naturally think. Every feature was built to remove the distance between your logic and working code.</p>
+  <p>It runs as a single native binary with zero dependencies. Programs are written in <code>.damg</code> files and executed with the <code>damage</code> command.</p>
+  <div class="callout"><strong>Note:</strong> DAMAGE is intentionally typeless. There are no int, string, or float declarations. Everything is a value.</div>
+  <h2>Key concepts</h2>
+  <ul>
+    <li>Every block opens with <code>@function+</code> and closes with <code>@-</code></li>
+    <li>Content inside a block is indented 5 spaces</li>
+    <li>Anything after <code>|</code> on a line is a comment</li>
+    <li>Variables are referenced with <code>(name)</code> — paren depth matches function position</li>
+  </ul>
+  <h2>A complete program</h2>
+  <pre><span class="cm">| A simple DAMAGE program</span>
+<span class="kw">@var+</span>
+     <span class="fn">name</span><span class="op">+</span><span class="str">World</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="kw">@print,var+</span>
+     <span class="op">+</span>Hello, <span class="fn">(name)</span>!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+</div>
+
+<!-- INSTALL -->
+<div class="doc-page" id="page-install">
+  <h1>Installation</h1>
+  <p class="page-title-sub">Get DAMAGE running on your machine</p>
+  <h2>Download the binary</h2>
+  <p>The easiest way is to download the pre-built binary from GitHub Releases.</p>
+  <pre>chmod +x damage
+sudo mv damage /usr/local/bin/damage
+damage --version</pre>
+  <h2>Build from source</h2>
+  <p>Requires <a href="https://rustup.rs" style="color:var(--accent)">Rust</a> to be installed.</p>
+  <pre>git clone https://github.com/Ultiminium/DAMAGE
+cd DAMAGE/damage-rs
+cargo build --release
+sudo mv target/release/damage /usr/local/bin/damage</pre>
+  <h2>Verify</h2>
+  <pre>damage --version
+<span class="cm"># DAMAGE v8.0.0</span></pre>
+</div>
+
+<!-- HELLO WORLD -->
+<div class="doc-page" id="page-hello">
+  <h1>Hello World</h1>
+  <p class="page-title-sub">Your first DAMAGE program</p>
+  <p>Create a file called <code>hello.damg</code>:</p>
+  <pre><span class="kw">@print+</span>
+     <span class="op">+</span>Hello, World!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>Run it:</p>
+  <pre>damage hello.damg
+<span class="cm"># Hello, World!</span></pre>
+</div>
+
+<!-- BLOCKS -->
+<div class="doc-page" id="page-blocks">
+  <h1>Blocks</h1>
+  <p class="page-title-sub">The core structure of DAMAGE</p>
+  <p>Everything in DAMAGE is a block. A block opens with <code>@functionname+</code> and closes with <code>@-</code>. Content inside is indented exactly 5 spaces.</p>
+  <pre><span class="kw">@functionname+</span>
+     content goes here
+<span class="kw">@-</span></pre>
+  <h2>Multi-function blocks</h2>
+  <p>Combine functions with commas. The position of each function determines the paren depth for references:</p>
+  <pre><span class="kw">@print,math,var+</span>
+     <span class="op">+</span><span class="fn">((score))</span> <span class="op">(+)</span> 1<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p><code>print</code> = position 0 (no parens), <code>math</code> = position 1 → <code>(+)</code>, <code>var</code> = position 2 → <code>((score))</code></p>
+  <div class="callout"><strong>Tip:</strong> DAMAGE is forgiving about paren depth. If a name matches a known variable, it resolves regardless of depth.</div>
+  <h2>Block closers</h2>
+  <table>
+    <tr><th>Syntax</th><th>Meaning</th></tr>
+    <tr><td><code>@-</code></td><td>Normal close</td></tr>
+    <tr><td><code>@-&</code></td><td>Close and chain to next block</td></tr>
+    <tr><td><code>@-#</code></td><td>End of chain</td></tr>
+    <tr><td><code>@---</code></td><td>Close a user function definition</td></tr>
+  </table>
+  <h2>Comments</h2>
+  <pre><span class="cm">| This whole line is a comment</span>
+<span class="kw">@print+</span>
+     <span class="op">+</span>Hello<span class="op">-</span> <span class="cm">| inline comment</span>
+<span class="kw">@-</span></pre>
+</div>
+
+<!-- VARIABLES -->
+<div class="doc-page" id="page-variables">
+  <h1>Variables</h1>
+  <p class="page-title-sub">Storing and using values</p>
+  <h2>Declaring variables</h2>
+  <pre><span class="kw">@var+</span>
+     <span class="fn">name</span><span class="op">+</span><span class="str">Alice</span><span class="op">-</span>
+     <span class="fn">score</span><span class="op">+</span><span class="str">100</span><span class="op">-</span>
+     <span class="fn">isAlive</span>=1
+<span class="kw">@-</span></pre>
+  <p>Booleans use <code>=</code> instead of <code>+value-</code>. <code>1</code> is on, <code>0</code> is off.</p>
+  <h2>List variables</h2>
+  <p>A variable with commas — useful for displaying a group of things in one call:</p>
+  <pre><span class="kw">@var+</span>
+     <span class="fn">items</span><span class="op">+</span><span class="str">apples,bananas,milk</span><span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="kw">@print,var+</span>
+     <span class="op">+</span>Shopping: <span class="fn">(items)</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Reassigning variables</h2>
+  <pre><span class="kw">@dyn,var+</span>
+<span class="kw">@dyn:</span><span class="fn">(score)</span> = <span class="fn">(score)</span>+10
+<span class="kw">@-</span></pre>
+  <p>Supports math expressions and copying from other variables:</p>
+  <pre><span class="cm">| copy one variable into another</span>
+<span class="kw">@dyn,var+</span>
+<span class="kw">@dyn:</span><span class="fn">(backup)</span> = <span class="fn">(score)</span>
+<span class="kw">@-</span></pre>
+</div>
+
+<!-- PRINT -->
+<div class="doc-page" id="page-print">
+  <h1>Print</h1>
+  <p class="page-title-sub">Outputting text</p>
+  <h2>Basic print</h2>
+  <pre><span class="kw">@print+</span>
+     <span class="op">+</span>Hello world<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>With variables</h2>
+  <pre><span class="kw">@print,var+</span>
+     <span class="op">+</span>Hello <span class="fn">(name)</span>!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>With math operators</h2>
+  <pre><span class="kw">@print,math+</span>
+     <span class="op">+</span>2 <span class="op">(+)</span> 2 = 4<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Inline math evaluation with %</h2>
+  <p>Define the expression between <code>%%</code>. The result is placed at the next standalone <code>%</code>:</p>
+  <pre><span class="kw">@print,math+</span>
+     <span class="op">+</span>2^10 = <span class="fn">%2^10%</span>? The answer is <span class="fn">%</span><span class="op">-</span>
+<span class="kw">@-</span>
+<span class="cm"># Output: 2^10 = ? The answer is 1024</span></pre>
+  <h2>Random OR</h2>
+  <p>Use <code>?</code> to pick one option randomly:</p>
+  <pre><span class="kw">@+</span>Good job!<span class="op">-</span>?<span class="kw">@+</span>Well done!<span class="op">-</span>?<span class="kw">@+</span>Amazing!<span class="op">-</span></pre>
+  <h2>Multi-statement with &</h2>
+  <pre>if, <span class="fn">(score)</span> = 100
+     <span class="kw">@+</span>Perfect!<span class="op">-</span>&<span class="kw">@+</span>Top score!<span class="op">-</span>&<span class="kw">@+</span>Well done.<span class="op">-</span></pre>
+</div>
+
+<!-- MATH -->
+<div class="doc-page" id="page-math">
+  <h1>Math</h1>
+  <p class="page-title-sub">Calculations and expressions</p>
+  <h2>Standalone math block</h2>
+  <pre><span class="kw">@math+</span>
+     10 + 5
+<span class="kw">@-</span></pre>
+  <h2>Operators</h2>
+  <table>
+    <tr><th>Operator</th><th>Meaning</th><th>In print</th></tr>
+    <tr><td><code>+</code></td><td>Add</td><td><code>(+)</code></td></tr>
+    <tr><td><code>-</code></td><td>Subtract</td><td><code>(-)</code></td></tr>
+    <tr><td><code>*</code></td><td>Multiply</td><td><code>(*)</code></td></tr>
+    <tr><td><code>/</code></td><td>Divide</td><td><code>(/)</code></td></tr>
+    <tr><td><code>^</code></td><td>Exponent</td><td><code>(^)</code></td></tr>
+  </table>
+  <h2>Exponents</h2>
+  <p>Exponents follow right-to-left convention like standard math:</p>
+  <pre>2^3^2 = 512   <span class="cm">| = 2^(3^2) = 2^9</span></pre>
+  <h2>Large numbers</h2>
+  <p>Results above 10^10 automatically display in scientific notation. Results too large to compute return <code>too large to display</code>.</p>
+  <pre>2^34 = 1.718x10^10
+10^80 = 10^80</pre>
+</div>
+
+<!-- CONDITIONS -->
+<div class="doc-page" id="page-conditions">
+  <h1>Conditions</h1>
+  <p class="page-title-sub">if, other if, other</p>
+  <h2>Basic if</h2>
+  <pre>if, <span class="fn">(score)</span> = 100
+<span class="kw">@print+</span>
+     <span class="op">+</span>Perfect!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>if / other if / other</h2>
+  <p>First match wins — once a branch fires, the rest are skipped:</p>
+  <pre>if, <span class="fn">(score)</span> = 100
+<span class="kw">@print+</span>
+     <span class="op">+</span>Perfect!<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">other if,</span> <span class="fn">(score)</span> &gt; 50
+<span class="kw">@print+</span>
+     <span class="op">+</span>Not bad.<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">other,</span>
+<span class="kw">@print+</span>
+     <span class="op">+</span>Keep trying.<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Operators</h2>
+  <table>
+    <tr><th>Operator</th><th>Meaning</th></tr>
+    <tr><td><code>=</code></td><td>Equals</td></tr>
+    <tr><td><code>&lt;</code></td><td>Less than</td></tr>
+    <tr><td><code>&gt;</code></td><td>Greater than</td></tr>
+    <tr><td><code>~</code></td><td>Not equal</td></tr>
+  </table>
+  <h2>Chained AND conditions</h2>
+  <pre>if, <span class="fn">(score)</span> = 100,<span class="fn">(lives)</span> &gt; 0,<span class="fn">(name)</span> = Alice</pre>
+  <p>All conditions must be true for the branch to fire.</p>
+</div>
+
+<!-- LOOPS -->
+<div class="doc-page" id="page-loops">
+  <h1>Loops</h1>
+  <p class="page-title-sub">Repeating blocks</p>
+  <h2>Fixed count</h2>
+  <pre><span class="kw">@loop,print+</span>
+     <span class="op">+</span>Hello!<span class="op">-</span>
+<span class="kw">@loop:</span>5
+<span class="kw">@-</span></pre>
+  <h2>Variable count</h2>
+  <pre><span class="kw">@var+</span>
+     <span class="fn">times</span><span class="op">+</span>3<span class="op">-</span>
+<span class="kw">@-</span>
+
+<span class="kw">@loop,print+</span>
+     <span class="op">+</span>Hello!<span class="op">-</span>
+<span class="kw">@loop:</span><span class="fn">(times)</span>
+<span class="kw">@-</span></pre>
+  <h2>Conditional count</h2>
+  <pre><span class="kw">@loop,print+</span>
+     <span class="op">+</span>Hello!<span class="op">-</span>
+if, <span class="fn">(score)</span> = 5
+<span class="kw">@loop:</span>3
+if, <span class="fn">(score)</span> ~ 5
+<span class="kw">@loop:</span>0
+<span class="kw">@-</span></pre>
+  <p><code>@loop:0</code> skips the loop entirely.</p>
+</div>
+
+<!-- INPUT -->
+<div class="doc-page" id="page-input">
+  <h1>User Input</h1>
+  <p class="page-title-sub">Getting input from the user</p>
+  <h2>Basic input</h2>
+  <pre><span class="kw">@user,print+</span>
+     <span class="op">+</span>What is your name?<span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">name</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p><code>@var:create</code> stores the input as a variable. Default is <code>0</code> if the user types nothing.</p>
+  <h2>Input validation</h2>
+  <p>Keep re-prompting until the user gives valid input:</p>
+  <pre><span class="kw">@user,print+</span>
+     <span class="op">+</span>Enter a number:<span class="op">-</span>
+<span class="kw">@user:expect"n"</span>
+<span class="kw">@var:create+</span><span class="fn">num</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <table>
+    <tr><th>Value</th><th>Expects</th></tr>
+    <tr><td><code>"n"</code></td><td>Numbers only (integers and decimals)</td></tr>
+    <tr><td><code>"l"</code></td><td>Letters only</td></tr>
+  </table>
+</div>
+
+<!-- RANDOM -->
+<div class="doc-page" id="page-random">
+  <h1>Random</h1>
+  <p class="page-title-sub">Picking values randomly</p>
+  <h2>From a list</h2>
+  <pre><span class="kw">@print,random+</span>
+     <span class="kw">@()+</span>1,2,3,4,5<span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">pick</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>From a range</h2>
+  <pre><span class="kw">@print,random+</span>
+     <span class="kw">@()+</span>1-100<span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">pick</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>From variables</h2>
+  <pre><span class="kw">@print,random+</span>
+     <span class="kw">@()+</span><span class="fn">((score)),((lives)),((gold))</span><span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">pick</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Random OR</h2>
+  <p>Inline — picks one of the options randomly:</p>
+  <pre><span class="kw">@+</span>Good job!<span class="op">-</span>?<span class="kw">@+</span>Well done!<span class="op">-</span>?<span class="kw">@+</span>Amazing!<span class="op">-</span></pre>
+</div>
+
+<!-- FUNCTIONS -->
+<div class="doc-page" id="page-functions">
+  <h1>Functions</h1>
+  <p class="page-title-sub">Defining and calling reusable blocks</p>
+  <h2>Defining a function</h2>
+  <pre><span class="kw">@addfunc+</span>
+<span class="kw">@print+</span>
+     <span class="op">+</span>Hello from my function!<span class="op">-</span>
+<span class="kw">@-</span>
+<span class="kw">@addfunc:createname"</span><span class="fn">greet</span><span class="kw">"</span>
+<span class="kw">@---</span></pre>
+  <h2>Calling a function</h2>
+  <pre><span class="kw">@greet+</span>
+<span class="kw">@-</span></pre>
+  <div class="callout"><strong>Note:</strong> Functions are saved as <code>.func</code> files in the <code>usrfunc/</code> directory next to the binary. Variables are shared between caller and function. You cannot name a function the same as a built-in.</div>
+</div>
+
+<!-- FETCH -->
+<div class="doc-page" id="page-fetch">
+  <h1>Fetch</h1>
+  <p class="page-title-sub">Universal data pipeline</p>
+  <p>Fetch pipes data from anywhere to anywhere using <code>$</code>. The left side is the source, the right side is the destination.</p>
+  <h2>Syntax</h2>
+  <pre><span class="kw">@fetch+</span>
+fetch.<span class="op">+</span>source<span class="op">-$+</span>destination<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Reference types</h2>
+  <table>
+    <tr><th>Reference</th><th>Meaning</th></tr>
+    <tr><td><code>@var/name</code></td><td>A DAMAGE variable</td></tr>
+    <tr><td><code>gui:1</code></td><td>A GUI element by ID</td></tr>
+    <tr><td><code>/path/to/file.txt</code></td><td>A file on disk</td></tr>
+    <tr><td><code>@funcname</code></td><td>Output of a user function</td></tr>
+  </table>
+  <h2>Examples</h2>
+  <pre><span class="kw">@fetch+</span>
+fetch.<span class="op">+</span><span class="fn">@var/score</span><span class="op">-$+</span><span class="fn">@var/backup</span><span class="op">-</span>   <span class="cm">| var → var</span>
+fetch.<span class="op">+</span><span class="fn">gui:1</span><span class="op">-$+</span><span class="fn">@var/input</span><span class="op">-</span>        <span class="cm">| gui → var</span>
+fetch.<span class="op">+</span><span class="fn">@var/name</span><span class="op">-$+</span><span class="fn">/tmp/out.txt</span><span class="op">-</span> <span class="cm">| var → file</span>
+<span class="kw">@-</span></pre>
+</div>
+
+<!-- TEXT -->
+<div class="doc-page" id="page-text">
+  <h1>Text Operations</h1>
+  <p class="page-title-sub">String manipulation with @text</p>
+  <h2>Get length</h2>
+  <pre><span class="kw">@text+</span>
+<span class="kw">@text:length+</span><span class="fn">@var/name</span><span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">len</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>Also accepts <code>/file/path</code> and <code>@user</code> as sources.</p>
+  <h2>Capitalize a letter</h2>
+  <pre><span class="kw">@text+</span>
+text:capital<span class="str">"@var/name/s"</span>:1
+<span class="kw">@-</span></pre>
+  <p>Capitalizes the letter <code>s</code> at position 1 in the variable <code>name</code>.</p>
+  <h2>Lowercase a letter</h2>
+  <pre><span class="kw">@text+</span>
+text:lower<span class="str">"@var/name/S"</span>:1
+<span class="kw">@-</span></pre>
+  <h2>Max length</h2>
+  <pre><span class="kw">@text+</span>
+text:maxlength<span class="str">"15"</span>
+<span class="kw">@-</span></pre>
+  <p>Errors if the last input exceeds the limit.</p>
+  <h2>Check type</h2>
+  <pre><span class="kw">@text+</span>
+<span class="kw">@text:length+</span><span class="fn">@var/input</span><span class="op">-</span>
+text:check<span class="str">"n"</span>
+<span class="kw">@var:create+</span><span class="fn">isnum</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>Returns <code>1</code> if valid, <code>0</code> if not. <code>"n"</code> = numbers, <code>"l"</code> = letters only.</p>
+</div>
+
+<!-- ENCRYPTION -->
+<div class="doc-page" id="page-enc">
+  <h1>Encryption</h1>
+  <p class="page-title-sub">@enc and @dec</p>
+  <div class="callout"><strong>Important:</strong> DAMAGE never stores your password. It's used only to generate the encryption seed, then forgotten.</div>
+  <h2>One-way encryption</h2>
+  <pre><span class="kw">@enc,var+</span>
+     <span class="op">+</span><span class="fn">(password)</span><span class="op">-</span>
+<span class="kw">@var:create+</span><span class="fn">encrypted</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>No password means no decryption. The data is permanently encrypted.</p>
+  <h2>Two-way encryption</h2>
+  <pre><span class="kw">@enc,var+</span>
+     <span class="op">+</span><span class="fn">(password)</span><span class="op">-</span>
+<span class="kw">@enc:password"</span><span class="str">mykey</span><span class="kw">"</span>
+<span class="kw">@var:create+</span><span class="fn">secured</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Decryption</h2>
+  <pre><span class="kw">@dec,var+</span>
+     <span class="kw">@dec:@var/</span><span class="fn">secured</span>/<span class="str">mykey</span>
+<span class="kw">@var:create+</span><span class="fn">original</span><span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>Wrong password produces garbled output. Attempting to decrypt a one-way encrypted variable throws an error.</p>
+</div>
+
+<!-- GUI -->
+<div class="doc-page" id="page-gui">
+  <h1>GUI</h1>
+  <p class="page-title-sub">Building windowed applications</p>
+  <h2>Opening a window</h2>
+  <pre><span class="kw">@gui,var+</span>
+<span class="kw">@gui:winname"</span><span class="str">My App</span><span class="kw">"</span>
+<span class="kw">@gui:winsize"</span><span class="str">800:600</span><span class="kw">"</span>
+<span class="kw">@gui:text+</span>Hello <span class="fn">(name)</span><span class="op">-</span>:pos+100,300-
+<span class="kw">@gui:input:writableelement:text+</span>Type here...<span class="op">-</span>:1
+<span class="kw">@gui:pressable"name:</span><span class="str">Click Me</span><span class="kw">":pos+300,200-</span>
+if, pressable+Click Me-:true
+     <span class="kw">@()+</span>Button clicked!<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <h2>Coordinates</h2>
+  <p>Origin is bottom-left. X goes right, Y goes up. Elements without <code>:pos</code> stack top-to-bottom automatically.</p>
+  <h2>Element IDs</h2>
+  <p>Elements are given an ID with <code>:1</code>, <code>:2</code> etc. Use these with <code>@fetch</code> to read and write values.</p>
+  <h2>Writable elements</h2>
+  <pre><span class="kw">@gui:input:writableelement:text+</span>placeholder<span class="op">-</span>:1</pre>
+  <p>Only writable elements can be updated via <code>@fetch</code>.</p>
+</div>
+
+<!-- OUTPUT -->
+<div class="doc-page" id="page-output">
+  <h1>File Output</h1>
+  <p class="page-title-sub">Writing to files</p>
+  <pre><span class="kw">@output,var+</span>
+     <span class="op">+</span><span class="fn">(result)</span><span class="op">-</span>
+<span class="kw">@output:createname"</span><span class="str">results.txt</span><span class="kw">"</span>
+<span class="kw">@-</span></pre>
+  <p>Files are saved to the <code>outputs/</code> directory next to the binary.</p>
+</div>
+
+<!-- IMPORT -->
+<div class="doc-page" id="page-import">
+  <h1>Import</h1>
+  <p class="page-title-sub">Using code from other files</p>
+  <pre><span class="kw">@import+</span>
+     <span class="op">+</span>utils.damg<span class="op">-</span>
+<span class="kw">@-</span></pre>
+  <p>Runs another <code>.damg</code> file in the same context. All variables and functions from the imported file are available after the import.</p>
+</div>
+
+<!-- PACKAGES -->
+<div class="doc-page" id="page-packages">
+  <h1>Packages</h1>
+  <p class="page-title-sub">Extending DAMAGE with community packages</p>
+  <h2>Installing</h2>
+  <pre>damage install net</pre>
+  <h2>Listing installed</h2>
+  <pre>damage list</pre>
+  <h2>Removing</h2>
+  <pre>damage uninstall net</pre>
+  <p>Installed packages auto-load on every program run. No import needed.</p>
+  <h2>Package format</h2>
+  <p>A package is a folder containing any mix of:</p>
+  <ul>
+    <li><code>.damg</code> — adds DAMAGE functions and variables</li>
+    <li><code>.py</code> — adds Python-powered built-ins (Python version only)</li>
+    <li><code>package.json</code> — name, version, description, author</li>
+  </ul>
+  <p>Packages are installed to <code>~/.damage/install/</code>.</p>
+</div>
+
+<!-- CLI -->
+<div class="doc-page" id="page-cli">
+  <h1>CLI Reference</h1>
+  <p class="page-title-sub">All commands and flags</p>
+  <h2>Running programs</h2>
+  <pre>damage &lt;file.damg&gt;</pre>
+  <h2>Flags</h2>
+  <table>
+    <tr><th>Flag</th><th>Meaning</th></tr>
+    <tr><td><code>-h, --help</code></td><td>Show help guide</td></tr>
+    <tr><td><code>-v, --version</code></td><td>Show version</td></tr>
+    <tr><td><code>-c, --check</code></td><td>Syntax check without running</td></tr>
+    <tr><td><code>-d, --debug</code></td><td>Show tokens and AST then run</td></tr>
+    <tr><td><code>-l, --log</code></td><td>Always save errors to log</td></tr>
+    <tr><td><code>-n, --no-log</code></td><td>Never save errors to log</td></tr>
+  </table>
+  <h2>Commands</h2>
+  <table>
+    <tr><th>Command</th><th>Meaning</th></tr>
+    <tr><td><code>install &lt;name&gt;</code></td><td>Install a package</td></tr>
+    <tr><td><code>uninstall &lt;name&gt;</code></td><td>Remove a package</td></tr>
+    <tr><td><code>list</code></td><td>List installed packages</td></tr>
+    <tr><td><code>--list-funcs</code></td><td>List saved user functions</td></tr>
+    <tr><td><code>--clear-logs</code></td><td>Delete all logs</td></tr>
+    <tr><td><code>--clear-funcs</code></td><td>Delete all user functions</td></tr>
+  </table>
+</div>
+
+<!-- ERRORS -->
+<div class="doc-page" id="page-errors">
+  <h1>Error Handling</h1>
+  <p class="page-title-sub">What happens when things go wrong</p>
+  <p>When DAMAGE encounters an error the program stops immediately and shows:</p>
+  <pre>ERROR:
+line.7, error "description"
+
+Save to logs? [y/n]</pre>
+  <ul>
+    <li>Press <code>y</code> to save the error to <code>~/damage/logs/damage.log</code></li>
+    <li>Press <code>n</code> to discard</li>
+    <li>Use <code>-l</code> flag to always save, <code>-n</code> to never save</li>
+  </ul>
+  <h2>Common errors</h2>
+  <table>
+    <tr><th>Error</th><th>Cause</th></tr>
+    <tr><td>unrecognised syntax</td><td>Line doesn't match any known pattern</td></tr>
+    <tr><td>unclosed opener</td><td>Used <code>+</code> or <code>-</code> without declaring math</td></tr>
+    <tr><td>unknown function</td><td>Called a function that doesn't exist</td></tr>
+    <tr><td>variable does not exist</td><td>Used <code>@dyn</code> on an undeclared variable</td></tr>
+    <tr><td>No password was set</td><td>Tried to decrypt a one-way encrypted variable</td></tr>
+  </table>
+</div>
+
+</main>
+</div>
+
+<script>
+const links = document.querySelectorAll('.sidebar-link');
+const pages = document.querySelectorAll('.doc-page');
+
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const page = link.dataset.page;
+    links.forEach(l => l.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    link.classList.add('active');
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+</script>
+</body>
+</html>
