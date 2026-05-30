@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download — DAMAGE</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Jost:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#ff3c3c;--accent2:#ff7b3c;--text:#e8e8f0;--muted:#666680;--code-bg:#0d0d14}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Roboto',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+nav{height:52px;background:rgba(10,10,15,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;gap:2rem;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Space Mono',monospace;font-weight:700;font-size:.9rem;color:var(--accent);text-decoration:none;letter-spacing:.05em}
+.nav-links{display:flex;gap:1.5rem;margin-left:auto}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem}
+.version-badge{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);padding:4px 12px;border-radius:2px;letter-spacing:.1em;margin-bottom:1.5rem}
+h1{font-family:'Jost',sans-serif;font-size:2.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem;text-align:center}
+.subtitle{color:var(--muted);font-size:1rem;margin-bottom:3rem;text-align:center}
+
+.download-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;width:100%;max-width:860px;margin-bottom:2rem}
+
+.dl-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.5rem;display:flex;flex-direction:column;gap:.75rem;transition:all .2s;cursor:pointer;text-decoration:none}
+.dl-card:hover:not(.disabled){border-color:rgba(255,60,60,.4);background:rgba(255,60,60,.04);transform:translateY(-2px)}
+.dl-card.disabled{opacity:.45;cursor:not-allowed}
+
+.dl-icon{font-size:1.8rem}
+.dl-platform{font-family:'Jost',sans-serif;font-weight:700;font-size:1rem;color:var(--text)}
+.dl-meta{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted)}
+.dl-status{font-family:'Space Mono',monospace;font-size:.65rem;padding:3px 8px;border-radius:2px;width:fit-content}
+.dl-status.available{background:rgba(168,216,168,.1);color:#a8d8a8;border:1px solid rgba(168,216,168,.2)}
+.dl-status.soon{background:rgba(255,123,60,.08);color:var(--accent2);border:1px solid rgba(255,123,60,.2)}
+
+.source-link{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:10px 24px;border-radius:4px;transition:all .2s;margin-top:.5rem}
+.source-link:hover{color:var(--text);border-color:var(--accent)}
+
+.install-hint{margin-top:2.5rem;max-width:560px;width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1.25rem 1.5rem}
+.install-hint h3{font-family:'Jost',sans-serif;font-size:.9rem;font-weight:600;margin-bottom:.75rem;color:var(--muted);letter-spacing:.05em}
+.install-hint pre{font-family:'Space Mono',monospace;font-size:.75rem;color:#a8d8a8;line-height:1.8;background:none;border:none;padding:0}
+
+footer{padding:2rem 8vw;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-left{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--muted)}
+.footer-left span{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">DAMAGE</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="docs.html">Docs</a>
+    <a href="download.html">Download</a>
+    <a href="https://github.com/Ultiminium/DAMAGE">GitHub</a>
+  </div>
+</nav>
+
+<main>
+  <div class="version-badge">LATEST — v8.0.0</div>
+  <h1>Download DAMAGE</h1>
+  <p class="subtitle">Pick your platform. No dependencies required.</p>
+
+  <div class="download-grid">
+
+    <a href="damage-linux-v8.0.0" download class="dl-card">
+      <div class="dl-platform">Linux</div>
+      <div class="dl-meta">x86_64 · 14MB</div>
+      <div class="dl-status available">AVAILABLE</div>
+    </a>
+
+    <div class="dl-card disabled">
+      <div class="dl-platform">Windows</div>
+      <div class="dl-meta">x86_64</div>
+      <div class="dl-status soon">COMING SOON</div>
+    </div>
+
+    <div class="dl-card disabled">
+      <div class="dl-platform">macOS</div>
+      <div class="dl-meta">ARM + Intel</div>
+      <div class="dl-status soon">COMING SOON</div>
+    </div>
+
+    <a href="https://github.com/Ultiminium/DAMAGE" target="_blank" class="dl-card">
+      <div class="dl-platform">Source</div>
+      <div class="dl-meta">Rust · Build yourself</div>
+      <div class="dl-status available">GITHUB</div>
+    </a>
+
+  </div>
+
+  <div class="install-hint">
+    <h3>AFTER DOWNLOADING — LINUX</h3>
+    <pre>chmod +x damage
+sudo mv damage /usr/local/bin/damage
+damage --version</pre>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-left">DAMAGE <span>v8.0</span> &mdash; MIT License</div>
+</footer>
+
+</body>
+</html>
